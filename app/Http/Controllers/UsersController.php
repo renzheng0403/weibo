@@ -19,4 +19,10 @@ class UsersController extends Controller
     {
         return view('users.show', compact('user'));
     }
+
+    /**
+     * 保存用户个人信息
+     */
+    public function store()
+    {}
 }
