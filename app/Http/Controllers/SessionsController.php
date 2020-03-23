@@ -13,6 +13,21 @@ use Auth;
  */
 class SessionsController extends Controller
 {
+    public function __construct()
+    {
+        /**
+         * 只允许未登录用户访问的动作
+         */
+        $this->middleware('quest', [
+            'only' => ['create']
+        ]);
+        /**
+         * 除了此处指定的动作不使用Auth过滤
+         */
+        $this->middleware('auth', [
+            'except' => ['show', 'create', 'store']
+        ]);
+    }
     /**
      * 处理 login get 请求，即当用户请求登录时，返回登录界面
      * @return var
@@ -36,7 +51,8 @@ class SessionsController extends Controller
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
             session()->flash('success', '欢迎回来！');
-            return redirect()->route('users.show', [Auth::user()]);
+            $fallback = route('users.show', Auth::user());
+            return redirect()->intended($fallback);
         } else {
             session()->flash('danger', '很抱歉，您的邮箱和密码不匹配');
             return redirect()->back()->withInput();
