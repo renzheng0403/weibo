@@ -12,6 +12,9 @@ class UsersController extends Controller
         $this->middleware('auth', [
             'except' => ['show', 'create', 'store', 'index']
         ]);
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
     }
 
     public function index()

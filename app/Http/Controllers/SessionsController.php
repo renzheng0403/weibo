@@ -18,14 +18,8 @@ class SessionsController extends Controller
         /**
          * 只允许未登录用户访问的动作
          */
-        $this->middleware('quest', [
+        $this->middleware('guest', [
             'only' => ['create']
-        ]);
-        /**
-         * 除了此处指定的动作不使用Auth过滤
-         */
-        $this->middleware('auth', [
-            'except' => ['show', 'create', 'store']
         ]);
     }
     /**
